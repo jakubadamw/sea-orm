@@ -592,6 +592,10 @@ impl ActiveEnum {
         let try_from_str_impl = if self.db_type.is_enum() {
             quote! {
                 #[automatically_derived]
+                #[allow(
+                    clippy::try_from_instead_of_from_str,
+                    reason = "Implementing `FromStr` would conflict with a user's own implementation"
+                )]
                 impl std::convert::TryFrom<&str> for #ident {
                     type Error = sea_orm::DbErr;
 
